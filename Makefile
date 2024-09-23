@@ -1,24 +1,48 @@
 # Variables
 CC = gcc
 CFLAGS = -lm
-TARGET = sensor
-SRC = sensor.c
-CSV = sensor_data_with_noise.csv
+TARGET_DIR = target
+SRC1 = sensor.c
+SRC2 = noise_reduction.c
+OBJ1 = $(TARGET_DIR)/sensor.o
+OBJ2 = $(TARGET_DIR)/noise_reduction.o
+TARGET1 = $(TARGET_DIR)/sensor
+TARGET2 = $(TARGET_DIR)/noise_reduction
+CSV1 = sensor_data_with_noise.csv
+CSV2 = smoothed_data.csv
 
-# Default target to compile the program
-all: $(TARGET)
+# Create the target directory if it doesn't exist
+$(TARGET_DIR):
+	mkdir -p $(TARGET_DIR)
 
-# Compilation command
-$(TARGET): $(SRC)
-	$(CC) -o $(TARGET) $(SRC) $(CFLAGS)
+# Default target to compile all programs
+all: $(TARGET_DIR) $(TARGET1) $(TARGET2)
 
-# Run the program after compilation
-run: $(TARGET)
-	./$(TARGET)
+# Compile sensor program (generate object file and executable)
+$(TARGET1): $(OBJ1)
+	$(CC) -o $(TARGET1) $(OBJ1) $(CFLAGS)
+
+$(OBJ1): $(SRC1) | $(TARGET_DIR)
+	$(CC) -c $(SRC1) -o $(OBJ1)
+
+# Compile noise_reduction program (generate object file and executable)
+$(TARGET2): $(OBJ2)
+	$(CC) -o $(TARGET2) $(OBJ2) $(CFLAGS)
+
+$(OBJ2): $(SRC2) | $(TARGET_DIR)
+	$(CC) -c $(SRC2) -o $(OBJ2)
+
+# Run sensor program
+run_sensor: $(TARGET1)
+	./$(TARGET1)
+
+# Run noise_reduction program
+run_noise_reduction: $(TARGET2)
+	./$(TARGET2)
 
 # Clean up generated files
 clean:
-	rm -f $(TARGET) $(CSV)
+	rm -rf $(TARGET_DIR) $(CSV1) $(CSV2)
 
 # Optional: force run without making any changes
-.PHONY: clean all run
+.PHONY: clean all run_sensor run_noise_reduction
