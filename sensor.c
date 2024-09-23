@@ -28,7 +28,7 @@ int main() {
     scanf("%d", &noise_step);
 
     // Open CSV file for writing
-    file = fopen("sinusoidal_data_with_noise.csv", "w");
+    file = fopen("sensor_data_with_noise.csv", "w");
     if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
@@ -59,7 +59,7 @@ int main() {
     // Close the file
     fclose(file);
 
-    printf("Sinusoidal data written to 'sinusoidal_data.csv'.\n");
-
+    printf("Sensor data with noise written to 'sensor_data_with_noise.csv'.\n");
+    
     return 0;
 }
