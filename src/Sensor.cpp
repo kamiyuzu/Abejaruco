@@ -17,6 +17,8 @@ Sensor::Sensor(double MIN_VALUE, double MAX_VALUE, unsigned int num_samples, uns
         data(num_samples, 0.0)
 {}
 
+Sensor::~Sensor(){}
+
 /*  El ruido en las mediciones proviene de dos fuentes:
         1. Ruido y resolución del ADC: Podemos tomar como referencia el ADC del Arduino UNO
            Tiene una resolución de 10-bits con una precisión absoluta de +-2 LSB.
@@ -37,7 +39,7 @@ const std::vector<double>& Sensor::genData() {
     std::mt19937 gen(rd());
 
     // Generate sinusoidal values
-    for (int i = 0; i < this->num_samples; i++) {
+    for (unsigned int i = 0; i < this->num_samples; i++) {
         // Generate a sinusoidal value in the range [0, 2*PI]
         double sine_value = sin(2 * M_PI * static_cast<double>(i) / this->period);
 
