@@ -7,11 +7,12 @@
 #include "NoiseReduction.hpp"
 
 // Function to write data to CSV file
-void writeToCSV(const std::string& filename, const std::vector<double>& data) {
+void writeToCSV(const std::string& filename, const std::vector<double>& data, const std::vector<double>& filteredData) {
     std::ofstream file(filename);
     if (file.is_open()) {
-        for (const auto& value : data) {
-            file << value << "\n";
+        for (size_t i = 0; i < data.size(); ++i) {
+           file << data[i] << ",";
+           file << filteredData[i] << "\n";
         }
         file.close();
         std::cout << "Data written to " << filename << std::endl;
@@ -104,15 +105,12 @@ int main(int argc, char** argv) {
     Sensor sensor(MIN_VALUE, MAX_VALUE, num_samples, period, adc_resolution, adc_noise_lsb, sensor_noise_c);
     const std::vector<double>& sensor_data = sensor.genData();
 
-    // Step 2: Write sensor data to CSV file
-    writeToCSV("sensor_data.csv", sensor_data);
-
-    // Step 3: Apply noise reduction using NoiseReduction class
+    // Step 2: Apply noise reduction using NoiseReduction class
     NoiseReduction noise_reduction(window_size, sensor_data);
     const std::vector<double>& denoised_data = noise_reduction.denoise();
 
-    // Step 4: Write denoised data to another CSV file
-    writeToCSV("denoised_data.csv", denoised_data);
+    // Step 3: Write denoised data to another CSV file
+    writeToCSV("denoised_data.csv", sensor_data, denoised_data);
 
     return 0;
 }
