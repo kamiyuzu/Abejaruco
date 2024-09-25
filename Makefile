@@ -10,13 +10,10 @@ TARGET = main
 # Target directory
 TARGET_DIR = target
 
-# Source files
-SRCS = src/*.cpp
-
-# Object files (generated in src/ directory)
+# Object files
 OBJS = main.o Sensor.o NoiseReduction.o
 
-# Include directories (include current directory for headers)
+# Include directories (include src directory for headers)
 INCLUDES = -Isrc
 
 # Build the executable
