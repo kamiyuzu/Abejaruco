@@ -20,7 +20,6 @@ void writeToCSV(const std::string& filename, const std::vector<double>& data) {
     }
 }
 
-
 // Este metodo es para leer un csv si solo se quiere quitar el ruido de datos ya existentes -- no necesario en flujo normal
 std::vector<double> read_csv_values(const std::string& file_name) {
     std::vector<double> data;
@@ -100,7 +99,6 @@ int main(int argc, char** argv) {
             return 1;
         }
     }
-
 
     // Step 1: Generate sensor data
     Sensor sensor(MIN_VALUE, MAX_VALUE, num_samples, period, adc_resolution, adc_noise_lsb, sensor_noise_c);
