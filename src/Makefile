@@ -1,8 +1,8 @@
 # Compiler
-CXX = g++ 
+CXX = g++
 
 # Compiler flags
-CXXFLAGS = -Wall -Wextra -std=c++17 -v
+CXXFLAGS = -Wall -Wextra -std=c++17
 
 # Target executable
 TARGET = main
