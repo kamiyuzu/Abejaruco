@@ -14,7 +14,7 @@ NoiseReduction::NoiseReduction(unsigned int window_size, const std::vector<doubl
 NoiseReduction::~NoiseReduction(){}
 
 const std::vector<double>& NoiseReduction::denoise() {
-    int half_window = window_size / 2;
+    unsigned int half_window = window_size / 2;
     size_t input_size = input.size();
 
     // Iterate over each element of the input vector
