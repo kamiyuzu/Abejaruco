@@ -2,12 +2,9 @@
 class NoiseReduction {
     public:
         // Constructor with default parameters
-        NoiseReduction(unsigned int window_size = 5,
-                        const std::vector<double>& input = {});
+        NoiseReduction(unsigned int window_size = 5);
         ~NoiseReduction();
-        const std::vector<double>& denoise();
+        std::vector<double> denoise(const std::vector<double>& input);
     private:
         unsigned int window_size;
-        const std::vector<double>& input; // Read-only reference to input data
-        std::vector<double> output;
 };

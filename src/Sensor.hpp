@@ -10,15 +10,13 @@ class Sensor {
                 unsigned int adc_noise_lsb = 2,
                 double sensor_noise_c = 2.0);
         ~Sensor();
-        const std::vector<double>& genData();
+        std::vector<double> genData();
     private:
-        double MIN_VALUE;
-        double MAX_VALUE;
+        double min_value;
+        double max_value;
         unsigned int num_samples;
         unsigned int period;
-        unsigned int adc_resolution;
         unsigned int adc_noise_lsb;
         double sensor_noise_c;
         double adc_step_size;
-        std::vector<double> data;
 };

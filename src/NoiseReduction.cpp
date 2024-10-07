@@ -4,18 +4,17 @@
 #include <algorithm> // For std::min, std::max
 
 // Constructor with optional parameters, as they have default values
-NoiseReduction::NoiseReduction(unsigned int window_size, const std::vector<double>& input) :
-    window_size(window_size),
-    input(input),
-    output(input.size(), 0)
+NoiseReduction::NoiseReduction(unsigned int window_size) :
+    window_size(window_size)
 {}
 
 // Destructor
 NoiseReduction::~NoiseReduction(){}
 
-const std::vector<double>& NoiseReduction::denoise() {
-    unsigned int half_window = window_size / 2;
+std::vector<double> NoiseReduction::denoise(const std::vector<double>& input) {
+    unsigned int half_window = this->window_size / 2;
     size_t input_size = input.size();
+    std::vector<double> output(input_size, 0.0);
 
     // Iterate over each element of the input vector
     for (size_t i = 0; i < input_size; ++i) {
@@ -29,5 +28,5 @@ const std::vector<double>& NoiseReduction::denoise() {
         output[i] = sum / window_length;
     }
 
-    return this->output;
+    return output;
 }

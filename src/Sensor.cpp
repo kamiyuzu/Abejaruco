@@ -6,15 +6,13 @@
 // Constructor with optional parameters, as they have default values
 Sensor::Sensor(double MIN_VALUE, double MAX_VALUE, unsigned int num_samples, unsigned int period,
     unsigned int adc_resolution, unsigned int adc_noise_lsb, double sensor_noise_c) :
-        MIN_VALUE(MIN_VALUE),
-        MAX_VALUE(MAX_VALUE),
+        min_value(MIN_VALUE),
+        max_value(MAX_VALUE),
         num_samples(num_samples),
         period(period),
-        adc_resolution(adc_resolution),
         adc_noise_lsb(adc_noise_lsb),
         sensor_noise_c(sensor_noise_c),
-        adc_step_size((MAX_VALUE - MIN_VALUE) / (1 << adc_resolution)),
-        data(num_samples, 0.0)
+        adc_step_size((MAX_VALUE - MIN_VALUE) / (1 << adc_resolution))
 {}
 
 Sensor::~Sensor(){}
@@ -33,7 +31,8 @@ Sensor::~Sensor(){}
     Que significa que la temperatura medida es la real + la precisión del ADC +
     la precisión del sensor (con un tamaño de paso igual a la resolución del sensor)
 */
-const std::vector<double>& Sensor::genData() {
+std::vector<double> Sensor::genData() {
+    std::vector<double> data(this->num_samples, 0.0);
     // Initialize random seed for noise generation using random_device and mt19937
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -44,7 +43,7 @@ const std::vector<double>& Sensor::genData() {
         double sine_value = sin(2 * M_PI * static_cast<double>(i) / this->period);
 
         // Scale the value to fit between MIN and MAX
-        double scaled_value = MIN_VALUE + (sine_value + 1.0) * (MAX_VALUE - MIN_VALUE) / 2.0;
+        double scaled_value = min_value + (sine_value + 1.0) * (max_value - min_value) / 2.0;
 
         // Noise from ADC
         std::uniform_int_distribution<> adc_dis(-this->adc_noise_lsb, this->adc_noise_lsb);
@@ -56,8 +55,8 @@ const std::vector<double>& Sensor::genData() {
 
         // Clamp and assign the value
         scaled_value += adc_noise + sensor_noise;
-        this->data[i] = std::clamp(scaled_value, this->MIN_VALUE, this->MAX_VALUE);
+        data[i] = std::clamp(scaled_value, this->min_value, this->max_value);
     }
 
-    return this->data;
+    return data;
 }

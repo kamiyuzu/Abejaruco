@@ -102,14 +102,14 @@ int main(int argc, char** argv) {
 
     // Step 1: Generate sensor data
     Sensor sensor(MIN_VALUE, MAX_VALUE, num_samples, period, adc_resolution, adc_noise_lsb, sensor_noise_c);
-    const std::vector<double>& sensor_data = sensor.genData();
+    std::vector<double> sensor_data = sensor.genData();
 
     // Step 2: Write sensor data to CSV file
     writeToCSV("sensor_data.csv", sensor_data);
 
     // Step 3: Apply noise reduction using NoiseReduction class
-    NoiseReduction noise_reduction(window_size, sensor_data);
-    const std::vector<double>& denoised_data = noise_reduction.denoise();
+    NoiseReduction noise_reduction(window_size);
+    std::vector<double> denoised_data = noise_reduction.denoise(sensor_data);
 
     // Step 4: Write denoised data to another CSV file
     writeToCSV("denoised_data.csv", denoised_data);
