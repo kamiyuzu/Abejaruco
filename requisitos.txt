@@ -1,10 +1,10 @@
 Sensor, ruido y filtro como plugins separados
-Posibilidad de aplicar el filtro múltiples veces
+Posibilidad de aplicar el filtro múltiples veces (en principio deberían bastar con 2)
 Datos marcados con unidades de tiempo
 Posibilidad de configurar el sensor, entre otras cosas, para que emita valores concretos en instantes de tiempo concretos
 Los pasos intermedios de la generación de datos y filtrado deben de poder volcarse a archivos separados
 
-Uso del patrón decorador
+Uso del patrón decorador (4/5 decoradores)
 Uso de plugins con ChatGPT
 Inicialización de las clases en dos pasos (constructor sin argumentos y función/es que cambian los parámetros)
 Compilación mediante CMakeLists.txt
