@@ -1,3 +1,5 @@
+#ifndef NOISEREDUCTION_H
+
 #include <string>
 #include <vector>
 #include "PluginInterface.hpp"
@@ -15,3 +17,5 @@ class NoiseReduction : public PluginInterface {
         unsigned int window_size;
         std::vector<double> input;
 };
+
+#endif // NOISEREDUCTION_H

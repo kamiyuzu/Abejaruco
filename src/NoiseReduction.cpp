@@ -44,7 +44,7 @@ int NoiseReduction::setParameter(const std::string& key, const ParamType& value)
             return 1;
     }
     else if (!key.compare("input")) {
-        if (std::holds_alternative<double>(value)) {
+        if (std::holds_alternative<const std::vector<double>>(value)) {
             this->input = std::get<const std::vector<double>>(value);
         }
         else
