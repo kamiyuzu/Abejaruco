@@ -14,8 +14,4 @@ class Sensor : public PluginInterface {
         double max_value;
         unsigned int num_samples;
         unsigned int period;
-        unsigned int adc_noise_lsb;
-        unsigned int adc_resolution;
-        double sensor_noise_c;
-        double adc_step_size;
 };
