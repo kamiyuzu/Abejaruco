@@ -1,4 +1,4 @@
-#include "Sensor.hpp"
+#include "../include/Sensor.hpp"
 #include <string>
 #include <variant>
 #include <vector>

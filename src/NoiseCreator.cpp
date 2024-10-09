@@ -1,4 +1,4 @@
-#include "NoiseCreator.hpp"
+#include "../include/NoiseCreator.hpp"
 #include <random>
 
 NoiseCreator::NoiseCreator() :

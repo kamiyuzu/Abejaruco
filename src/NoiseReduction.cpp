@@ -1,4 +1,4 @@
-#include "NoiseReduction.hpp"
+#include "../include/NoiseReduction.hpp"
 #include <vector>
 #include <numeric> // For std::accumulate
 #include <algorithm> // For std::min, std::max

@@ -1,4 +1,4 @@
-#include "PluginInterface.hpp"
+#include "../include/PluginInterface.hpp"
 #include <cstring>
 #include <iostream>
 #include <fstream>
