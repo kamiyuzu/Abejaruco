@@ -1,3 +1,6 @@
+#ifndef DECORATOR_H
+#define DECORATOR_H
+
 #include "PluginInterface.hpp"
 
 //Interfaz basica de cada decorador
@@ -8,3 +11,5 @@ class Decorator : public PluginInterface {
         virtual int setParameter(const std::tuple<std::string, ParamType>& value);
         virtual const std::vector<std::string> getParameters();
 };
+
+#endif //DECORATOR_H

@@ -1,3 +1,6 @@
+#ifndef PLUGININTERFACE_H
+#define PLUGININTERFACE_H
+
 #include <string>
 #include <variant>
 #include <vector>
@@ -30,3 +33,5 @@ class PluginInterface {
 //de esta funcion para llamarla, ya que a los simbolos de las funciones
 //nativas de C++ se les aplica name mangling
 extern "C" PluginInterface* createPlugin();
+
+#endif //PLUGININTERFACE_H

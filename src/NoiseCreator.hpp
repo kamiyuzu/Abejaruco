@@ -1,3 +1,6 @@
+#ifndef NOISECREATOR_H
+#define NOISECREATOR_H
+
 #include "PluginInterface.hpp"
 
 class NoiseCreator : public PluginInterface {
@@ -12,3 +15,5 @@ class NoiseCreator : public PluginInterface {
         std::vector<double> input;
         double range;
 };
+
+#endif //NOISECREATOR_H
