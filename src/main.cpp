@@ -165,6 +165,9 @@ int main(int argc, char** argv) {
     // Step 6: Write data to another CSV file
     writeToCSV("denoised_data.csv", denoised_data);
 
+    delete sensor;
+    delete noise_creator;
+    delete denoise_creator;
     dlclose(sensor_handle);
     dlclose(noise_creator_handle);
     dlclose(noise_reduction_handle);
