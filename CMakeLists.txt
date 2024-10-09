@@ -21,6 +21,3 @@ add_library(NoiseCreator SHARED src/NoiseCreator.cpp)
 
 # El ejecutable principal
 add_executable(main src/main.cpp)
-
-# Enlazar las bibliotecas compartidas con el ejecutable
-target_link_libraries(main Sensor NoiseReduction NoiseCreator)
