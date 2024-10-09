@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Incluir el directorio de los archivos .hpp
-include_directories(src)
+include_directories(include)
 
 # Crear librerías compartidas para cada clase (compiladas desde src)
 add_library(Sensor SHARED src/Sensor.cpp)
