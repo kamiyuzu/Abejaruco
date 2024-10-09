@@ -11,7 +11,7 @@ NoiseReduction::NoiseReduction(unsigned int window_size) :
 // Destructor
 NoiseReduction::~NoiseReduction(){}
 
-std::vector<double> NoiseReduction::denoise(const std::vector<double>& input) {
+std::vector<double> NoiseReduction::execute(){
     unsigned int half_window = this->window_size / 2;
     size_t input_size = input.size();
     std::vector<double> output(input_size, 0.0);
@@ -29,4 +29,29 @@ std::vector<double> NoiseReduction::denoise(const std::vector<double>& input) {
     }
 
     return output;
+}
+
+const std::vector<std::string> NoiseReduction::getParameters() {
+    return std::vector<std::string>{ "window_size", "input" };
+}
+
+int NoiseReduction::setParameter(const std::string& key, const ParamType& value) {
+    if (!key.compare("window_size")) {
+        if (std::holds_alternative<unsigned int>(value)) {
+            this->window_size = std::get<unsigned int>(value);
+        }
+        else
+            return 1;
+    }
+    else if (!key.compare("input")) {
+        if (std::holds_alternative<double>(value)) {
+            this->input = std::get<const std::vector<double>>(value);
+        }
+        else
+            return 1;
+    }
+    else
+        return 2;
+
+    return 0;
 }
