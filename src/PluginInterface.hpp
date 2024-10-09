@@ -1,5 +1,4 @@
 #include <string>
-#include <tuple>
 #include <variant>
 #include <vector>
 
@@ -22,7 +21,7 @@ class PluginInterface {
         virtual const std::vector<std::string> getParameters() = 0;
         //Cambia el valor de un parametro
         //Devuelve error por valor estilo C, se podria usar excepciones
-        virtual int setParameter(const std::tuple<std::string, ParamType>& value) = 0;
+        virtual int setParameter(const std::string& key, const ParamType& value) = 0;
 };
 
 //En la implementacion, lo unico que debe de hacer es
