@@ -1,4 +1,5 @@
 #ifndef NOISEREDUCTION_H
+#define NOISEREDUCTION_H
 
 #include <string>
 #include <vector>
