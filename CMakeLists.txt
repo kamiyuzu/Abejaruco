@@ -17,10 +17,10 @@ include_directories(src)
 # Crear librerías compartidas para cada clase (compiladas desde src)
 add_library(Sensor SHARED src/Sensor.cpp)
 add_library(NoiseReduction SHARED src/NoiseReduction.cpp)
+add_library(NoiseCreator SHARED src/NoiseCreator.cpp)
 
 # El ejecutable principal
 add_executable(main src/main.cpp)
 
 # Enlazar las bibliotecas compartidas con el ejecutable
-target_link_libraries(main Sensor NoiseReduction)
-
+target_link_libraries(main Sensor NoiseReduction NoiseCreator)

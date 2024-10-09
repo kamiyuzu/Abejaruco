@@ -8,6 +8,10 @@ NoiseReduction::NoiseReduction(unsigned int window_size) :
     window_size(window_size)
 {}
 
+extern "C" PluginInterface* createPlugin() {
+    return new NoiseReduction();
+}
+
 // Destructor
 NoiseReduction::~NoiseReduction(){}
 

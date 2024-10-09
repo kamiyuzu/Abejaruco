@@ -1,10 +1,13 @@
+#include "PluginInterface.hpp"
 #include <cstring>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "Sensor.hpp"
-#include "NoiseReduction.hpp"
+#include <dlfcn.h>
+#include <iostream>
+
+typedef PluginInterface* (*create_t)();
 
 // Function to write data to CSV file
 void writeToCSV(const std::string& filename, const std::vector<double>& data) {
@@ -101,18 +104,69 @@ int main(int argc, char** argv) {
     }
 
     // Step 1: Generate sensor data
-    Sensor sensor(MIN_VALUE, MAX_VALUE, num_samples, period, adc_resolution, adc_noise_lsb, sensor_noise_c);
-    std::vector<double> sensor_data = sensor.genData();
+    void* sensor_handle = dlopen("lib/libSensor.so", RTLD_LAZY);
+    if (!sensor_handle) {
+        std::cerr << "Cannot open library: " << dlerror() << '\n';
+        return 1;
+    }
+
+    create_t create_plugin = (create_t)dlsym(sensor_handle, "createPlugin");
+    if (!create_plugin) {
+        std::cerr << "Cannot load symbol 'createPlugin': " << dlerror() << '\n';
+        dlclose(sensor_handle);
+        return 1;
+    }
+
+    PluginInterface* sensor = create_plugin();
+    std::vector<double> sensor_data = sensor->execute();
 
     // Step 2: Write sensor data to CSV file
     writeToCSV("sensor_data.csv", sensor_data);
 
-    // Step 3: Apply noise reduction using NoiseReduction class
-    NoiseReduction noise_reduction(window_size);
-    std::vector<double> denoised_data = noise_reduction.denoise(sensor_data);
+    // Step 3: Apply noise
+    void* noise_creator_handle = dlopen("lib/libNoiseCreator.so", RTLD_LAZY);
+    if (!noise_creator_handle) {
+        std::cerr << "Cannot open library: " << dlerror() << '\n';
+        return 1;
+    }
 
-    // Step 4: Write denoised data to another CSV file
+    create_plugin = (create_t)dlsym(noise_creator_handle, "createPlugin");
+    if (!create_plugin) {
+        std::cerr << "Cannot load symbol 'createPlugin': " << dlerror() << '\n';
+        dlclose(noise_creator_handle);
+        return 1;
+    }
+
+    PluginInterface* noise_creator = create_plugin();
+    noise_creator->setParameter("input", sensor_data);
+    std::vector<double> noised_data = noise_creator->execute();
+
+    // Step 4: Write data to another CSV file
+    writeToCSV("noise_data.csv", noised_data);
+
+    // Step 5: Apply denoise
+    void* noise_reduction_handle = dlopen("lib/libNoiseReduction.so", RTLD_LAZY);
+    if (!noise_reduction_handle) {
+        std::cerr << "Cannot open library: " << dlerror() << '\n';
+        return 1;
+    }
+
+    create_plugin = (create_t)dlsym(noise_reduction_handle, "createPlugin");
+    if (!create_plugin) {
+        std::cerr << "Cannot load symbol 'createPlugin': " << dlerror() << '\n';
+        dlclose(noise_reduction_handle);
+        return 1;
+    }
+
+    PluginInterface* denoise_creator = create_plugin();
+    noise_creator->setParameter("input", noised_data);
+    std::vector<double> denoised_data = denoise_creator->execute();
+
+    // Step 6: Write data to another CSV file
     writeToCSV("denoised_data.csv", denoised_data);
 
+    dlclose(sensor_handle);
+    dlclose(noise_creator_handle);
+    dlclose(noise_reduction_handle);
     return 0;
 }
