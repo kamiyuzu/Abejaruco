@@ -4,7 +4,6 @@
 #include <vector>
 #include <cmath>
 
-// Constructor with optional parameters, as they have default values
 Sensor::Sensor() :
         min_value(0.0),
         max_value(50.0),
@@ -15,6 +14,10 @@ Sensor::Sensor() :
         sensor_noise_c(2.0),
         adc_step_size(50.0 / (1 << 10))
 {}
+
+extern "C" PluginInterface* createPlugin() {
+    return new Sensor();
+}
 
 Sensor::~Sensor(){}
 
