@@ -73,7 +73,6 @@ PluginInterface* getPlugin(const char* libName) {
     create_t create_plugin = (create_t)dlsym(handle, "createPlugin");
     if (!create_plugin) {
         std::cerr << "Cannot load symbol 'createPlugin': " << dlerror() << '\n';
-        dlclose(handle);
         return nullptr;
     }
 
