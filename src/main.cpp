@@ -13,7 +13,6 @@
 #include "Decorator.hpp"
 #include "NoiseCreator.hpp"
 #include "NoiseReduction.hpp"
-#include "FilteringDecorator.hpp"  // Include the FilteringDecorator
 #include "LoggingDecorator.hpp"    // Include the LoggingDecorator
 
 typedef PluginInterface* (*create_t)();
@@ -130,15 +129,14 @@ int main(int argc, char** argv) {
     writeToCSV("sensor_data.csv", sensor_data);
 
     // Use the dynamically loaded `noise_creator_plugin` directly
-    std::unique_ptr<PluginInterface> logging_decorator = std::make_unique<LoggingDecorator>(noise_creator_plugin);
-    logging_decorator->setParameter("input", sensor_data);
-    std::vector<double> noised_data = logging_decorator->execute();
+    Decorator logging_decorator(noise_creator_plugin);
+    logging_decorator.setParameter("input", sensor_data);
+    std::vector<double> noised_data = logging_decorator.execute();
     writeToCSV("noise_data.csv", noised_data);
 
     // Similarly, use `denoise_creator_plugin`
-    std::unique_ptr<PluginInterface> filtering_decorator = std::make_unique<FilteringDecorator>(denoise_creator_plugin);
-    filtering_decorator->setParameter("input", noised_data);
-    std::vector<double> denoised_data = filtering_decorator->execute();
+    denoise_creator_plugin->setParameter("input", noised_data);
+    std::vector<double> denoised_data = denoise_creator_plugin->execute();
     writeToCSV("denoised_data.csv", denoised_data);
 
     delete sensor;
