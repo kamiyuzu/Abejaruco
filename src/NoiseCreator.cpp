@@ -30,21 +30,20 @@ const std::vector<std::string> NoiseCreator::getParameters() {
     return std::vector<std::string>{ "range", "input" };
 }
 
-int NoiseCreator::setParameter(const std::string& key, const ParamType& value) {
-    if (!key.compare("range")) {
-        if (std::holds_alternative<double>(value))
-            this->range = std::get<double>(value);
-        else
-            return 1;
-    }
-    else if (!key.compare("input")) {
-        if (std::holds_alternative<const std::vector<double>>(value))
-            this->input = std::get<const std::vector<double>>(value);
-        else
-            return 1;
-    }
+int NoiseCreator::setParameter(const std::string& key, const unsigned int value) {
+    return 1;
+}
+int NoiseCreator::setParameter(const std::string& key, const double value) {
+    if (!key.compare("range"))
+        this->range = value;
     else
-        return 2;
-
+        return 1;
+    return 0;
+}
+int NoiseCreator::setParameter(const std::string& key, const std::vector<double>& value) {
+    if (!key.compare("input"))
+        this->input = value;
+    else
+        return 1;
     return 0;
 }

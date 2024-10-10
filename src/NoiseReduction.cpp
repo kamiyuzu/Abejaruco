@@ -39,23 +39,20 @@ const std::vector<std::string> NoiseReduction::getParameters() {
     return std::vector<std::string>{ "window_size", "input" };
 }
 
-int NoiseReduction::setParameter(const std::string& key, const ParamType& value) {
-    if (!key.compare("window_size")) {
-        if (std::holds_alternative<unsigned int>(value)) {
-            this->window_size = std::get<unsigned int>(value);
-        }
-        else
-            return 1;
-    }
-    else if (!key.compare("input")) {
-        if (std::holds_alternative<const std::vector<double>>(value)) {
-            this->input = std::get<const std::vector<double>>(value);
-        }
-        else
-            return 1;
-    }
+int NoiseReduction::setParameter(const std::string& key, const unsigned int value) {
+    if (!key.compare("window_size"))
+        this->window_size = value;
     else
-        return 2;
-
+        return 1;
+    return 0;
+}
+int NoiseReduction::setParameter(const std::string& key, const double value) {
+    return 1;
+}
+int NoiseReduction::setParameter(const std::string& key, const std::vector<double>& value) {
+    if (!key.compare("input"))
+        this->input = value;
+    else
+        return 1;
     return 0;
 }
