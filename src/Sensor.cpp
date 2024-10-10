@@ -36,33 +36,24 @@ const std::vector<std::string> Sensor::getParameters() {
     return std::vector<std::string>{ "min_value", "max_value", "num_samples", "period" };
 }
 
-int Sensor::setParameter(const std::string& key, const ParamType& value) {
-    if (!key.compare("min_value")) {
-        if (std::holds_alternative<double>(value))
-            this->min_value = std::get<double>(value);
-        else
-            return 1;
-    }
-    else if (!key.compare("max_value")) {
-        if (std::holds_alternative<double>(value))
-            this->max_value = std::get<double>(value);
-        else
-            return 1;
-    }
-    else if (!key.compare("num_samples")) {
-        if (std::holds_alternative<unsigned int>(value))
-            this->num_samples = std::get<unsigned int>(value);
-        else
-            return 1;
-    }
-    else if (!key.compare("period")) {
-        if (std::holds_alternative<unsigned int>(value))
-            this->period = std::get<unsigned int>(value);
-        else
-            return 1;
-    }
+int Sensor::setParameter(const std::string& key, const unsigned int value) {
+    if (!key.compare("num_samples"))
+        this->num_samples = value;
+    else if (!key.compare("period"))
+        this->period = value;
     else
-        return 2;
-
+        return 1;
     return 0;
+}
+int Sensor::setParameter(const std::string& key, const double value) {
+    if (!key.compare("min_value"))
+        this->min_value = value;
+    else if (!key.compare("max_value"))
+        this->max_value = value;
+    else
+        return 1;
+    return 0;
+}
+int Sensor::setParameter(const std::string& key, const std::vector<double>& value) {
+    return 1;
 }

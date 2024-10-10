@@ -2,18 +2,7 @@
 #define PLUGININTERFACE_H
 
 #include <string>
-#include <variant>
 #include <vector>
-
-//Posibles tipos para todos los parametros configurables en un plugin
-//Es como una union, solo que puedes comprobar con seguridad el tipo
-//que hay por debajo en tiempo de ejecucion
-//Se pueden añadir o quitar tipos segun se necesiten
-typedef std::variant<
-    unsigned int,
-    double,
-    const std::vector<double>
-> ParamType;
 
 //Interfaz basica que debe implementar cada plugin
 class PluginInterface {
@@ -24,7 +13,9 @@ class PluginInterface {
         virtual const std::vector<std::string> getParameters() = 0;
         //Cambia el valor de un parametro
         //Devuelve error por valor estilo C, se podria usar excepciones
-        virtual int setParameter(const std::string& key, const ParamType& value) = 0;
+        virtual int setParameter(const std::string& key, const unsigned int value) = 0;
+        virtual int setParameter(const std::string& key, const double value) = 0;
+        virtual int setParameter(const std::string& key, const std::vector<double>& value) = 0;
 };
 
 //En la implementacion, lo unico que debe de hacer es

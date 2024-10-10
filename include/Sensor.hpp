@@ -8,7 +8,9 @@ class Sensor : public PluginInterface {
         ~Sensor();
         std::vector<double> execute();
         const std::vector<std::string> getParameters();
-        int setParameter(const std::string& key, const ParamType& value);
+        int setParameter(const std::string& key, const unsigned int value);
+        int setParameter(const std::string& key, const double value);
+        int setParameter(const std::string& key, const std::vector<double>& value);
     private:
         double min_value;
         double max_value;
